@@ -1,0 +1,16 @@
+# Ignorar la carpeta node_modules que contiene las dependencias instaladas
+node_modules/
+
+# Ignorar archivos de variables de entorno que contienen datos sensibles como claves y contraseñas
+.env
+
+# Ignorar archivos de log generados al ejecutar la aplicación
+*.log
+
+# Ignorar carpetas de sistema y archivos de entorno específicos de editores
+.vscode/
+.DS_Store
+
+# Ignorar archivos de build o compilación si usas TypeScript u otros
+dist/
+build/
