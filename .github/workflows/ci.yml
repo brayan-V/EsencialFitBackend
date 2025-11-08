@@ -1,0 +1,29 @@
+name: CI/CD EsencialFitBackend
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test-and-docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v3
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Instalar dependencias (pnpm)
+        run: npm install -g pnpm && pnpm install
+
+      - name: Ejecutar pruebas unitarias
+        run: pnpm test
+
+      - name: Construir imagen Docker
+        run: docker build -t esencialfit-backend .
