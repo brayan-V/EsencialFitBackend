@@ -9,10 +9,14 @@ on:
 jobs:
   build-and-test-and-docker:
     runs-on: ubuntu-latest
-
     steps:
       - name: Clonar repositorio
         uses: actions/checkout@v3
+
+      - name: Set environment variables
+        run: |
+          echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> .env
+          echo "CLAVE_SECRETA_JWT=${{ secrets.CLAVE_SECRETA_JWT }}" >> .env
 
       - name: Instalar Node.js
         uses: actions/setup-node@v3
