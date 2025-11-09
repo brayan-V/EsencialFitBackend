@@ -14,6 +14,13 @@ import bcrypt from "bcrypt";
 export const crearUsuario = async (req, res) => {
   try {
     const { tipoID, numeroID, nombre, correo, telefono, contraseña } = req.body;
+    
+    // Verifica campos obligatorios
+    if (!tipoID || !numeroID || !nombre || !correo || !contraseña) {
+      return res.status(400).json({ mensaje: "Todos los campos obligatorios deben estar completos" });
+    }
+
+    // Intenta crear nuevo usuario cliente
     const nuevoUsuario = new Usuario({
       tipoID,
       numeroID,
@@ -21,11 +28,17 @@ export const crearUsuario = async (req, res) => {
       correo,
       telefono,
       contraseña,
-      rol: "cliente" // El registro público siempre crea clientes
+      rol: "cliente"
     });
     await nuevoUsuario.save();
-    res.status(201).json(nuevoUsuario);
+    // Excluye la contraseña antes de devolver el usuario registrado
+    const { contraseña: _, ...usuarioSinContraseña } = nuevoUsuario.toObject();
+    res.status(201).json(usuarioSinContraseña);
   } catch (error) {
+    // Verifica si el error es por clave única
+    if (error.code === 11000) {
+      return res.status(400).json({ mensaje: "Correo o número de documento ya registrado" });
+    }
     res.status(400).json({ mensaje: "Error al crear usuario", error });
   }
 };

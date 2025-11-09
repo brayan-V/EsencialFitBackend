@@ -3,14 +3,14 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
 // Definición de los tipos de documento válidos para identificación de usuarios
-const tiposID = ["cedula", "pasaporte", "otro"];
+const tiposID = ["Cédula de Ciudadanía", "Pasaporte", "DNI","Tarjeta de Identidadd","Cédula de Extranjería","Permiso por Protección Temporal"];
 
 /**
  * Esquema de Usuario para MongoDB usando Mongoose
  * Define la estructura y validaciones de los documentos de la colección 'usuarios'.
  *
  * Campos:
- *  - tipoID: Tipo de documento de identidad (opciones: 'cedula', 'pasaporte', 'otro'), obligatorio.
+ *  - tipoID: Tipo de documento de identidad (opciones: "Cédula de Ciudadanía", "Pasaporte", "DNI","Tarjeta de Identidadd"), obligatorio.
  *  - numeroID: Número único del documento de identidad, obligatorio y único.
  *  - nombre: Nombre completo del usuario, obligatorio.
  *  - correo: Correo electrónico único y obligatorio.
