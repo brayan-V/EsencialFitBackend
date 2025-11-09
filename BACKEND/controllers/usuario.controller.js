@@ -4,6 +4,38 @@ import Usuario from "../models/usuario.modelo.js";
 import bcrypt from "bcrypt";
 
 /**
+ * Controlador para crear entrenadores (solo por admin).
+ * Recibe los datos del entrenador y lo asocia al admin que lo crea.
+ */
+export const crearEntrenador = async (req, res) => {
+  try {
+    if (!req.usuario || req.usuario.rol !== "administrador") {
+      return res.status(403).json({ mensaje: "Solo administradores pueden crear entrenadores" });
+    }
+    const { tipoID, numeroID, nombre, correo, telefono, contraseña, especialidad } = req.body;
+    const nuevoEntrenador = new Usuario({
+      tipoID,
+      numeroID,
+      nombre,
+      correo,
+      telefono,
+      contraseña,
+      rol: "entrenador",
+      especialidad,
+      adminAsignador: req.usuario._id
+    });
+    await nuevoEntrenador.save();
+    const { contraseña: _, ...entrenadorSinContraseña } = nuevoEntrenador.toObject();
+    res.status(201).json(entrenadorSinContraseña);
+  } catch (error) {
+    if (error.code === 11000) {
+      return res.status(400).json({ mensaje: "Correo o número de documento ya registrado" });
+    }
+    res.status(400).json({ mensaje: "Error al crear entrenador", error });
+  }
+};
+
+/**
  * Controlador para crear un nuevo usuario tipo "cliente".
  * Recibe los datos en el cuerpo de la petición, crea un documento de usuario y lo guarda en la base de datos.
  * Por defecto, asigna el rol "cliente" a todos los registros realizados por el frontend abierto.
@@ -44,15 +76,24 @@ export const crearUsuario = async (req, res) => {
 };
 
 /**
- * Controlador para listar todos los usuarios registrados en la base de datos.
- * Retorna un array de usuarios.
- *
- * @param {Object} req - El objeto de solicitud de Express
- * @param {Object} res - El objeto de respuesta de Express
+ * Controlador para listar usuarios según rol solicitado:
+ * - Admin: ve todos los usuarios registrados.
+ * - Entrenador: ve solo usuarios con rol 'cliente'.
+ * - Cliente: prohibido (opcional, puedes permitir solo datos propios en otra ruta).
  */
 export const listarUsuarios = async (req, res) => {
   try {
-    const usuarios = await Usuario.find();
+    if (!req.usuario) {
+      return res.status(401).json({ mensaje: "Acceso no autorizado" });
+    }
+    let usuarios;
+    if (req.usuario.rol === "administrador") {
+      usuarios = await Usuario.find();
+    } else if (req.usuario.rol === "entrenador") {
+      usuarios = await Usuario.find({ rol: "cliente" });
+    } else {
+      return res.status(403).json({ mensaje: "No tienes permisos para listar usuarios" });
+    }
     res.json(usuarios);
   } catch (error) {
     res.status(500).json({ mensaje: "Error al obtener usuarios", error });
@@ -100,14 +141,13 @@ export const actualizarUsuario = async (req, res) => {
 };
 
 /**
- * Controlador para eliminar un usuario específico por su ID.
- * Elimina el documento de usuario de la base de datos.
- *
- * @param {Object} req - El objeto de solicitud, req.params.id debe contener el ID del usuario a eliminar
- * @param {Object} res - El objeto de respuesta de Express
+ * Controlador para eliminar usuarios (solo por admin).
  */
 export const eliminarUsuario = async (req, res) => {
   try {
+    if (!req.usuario || req.usuario.rol !== "administrador") {
+      return res.status(403).json({ mensaje: "Solo administradores pueden eliminar usuarios" });
+    }
     const usuario = await Usuario.findByIdAndDelete(req.params.id);
     if (!usuario) return res.status(404).json({ mensaje: "Usuario no encontrado" });
     res.json({ mensaje: "Usuario eliminado correctamente" });

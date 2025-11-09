@@ -1,40 +1,41 @@
-// Importa Router de Express para crear un submódulo de rutas dedicado a usuarios
+// routes/usuario.routes.js
 import { Router } from "express";
-// Importa los controladores CRUD desde el controlador de usuario
 import {
   crearUsuario,
   listarUsuarios,
   obtenerUsuario,
   actualizarUsuario,
-  eliminarUsuario
+  eliminarUsuario,
+  crearEntrenador
 } from "../controllers/usuario.controller.js";
-// Importa el middleware para verificar token JWT en rutas protegidas
 import { verificarToken } from "../middlewares/verificarToken.js";
 
 /**
- * Instancia un enrutador (Router) de Express, útil para modularizar rutas por recurso.
- * Este router gestiona todas las rutas relacionadas con la entidad Usuario y su ciclo CRUD.
+ * Instancia un enrutador (Router) de Express para la entidad Usuario.
+ * Integra rutas especiales para las operaciones de admin y entrenadores.
  */
 const router = Router();
 
 /**
- * Define las rutas principales para el recurso 'usuarios':
+ * Rutas principales para el recurso 'usuarios'
  *
- *  POST   /api/usuarios        → crearUsuario      (registro de nuevo usuario cliente)
- *  GET    /api/usuarios        → listarUsuarios    (obtener todos los usuarios)
- *  GET    /api/usuarios/:id    → obtenerUsuario    (obtener un usuario por ID específico)
- *  PUT    /api/usuarios/:id    → actualizarUsuario (actualizar datos de usuario, requiere autenticación)
- *  DELETE /api/usuarios/:id    → eliminarUsuario   (eliminar usuario, requiere autenticación)
- *
- * Nota: Las rutas que requieren autenticación están protegidas con el middleware verificarToken.
+ * POST    /api/usuarios              → crearUsuario
+ * POST    /api/usuarios/entrenador   → crearEntrenador (solo admin)
+ * GET     /api/usuarios              → listarUsuarios (admin puede ver todos, entrenador solo clientes)
+ * GET     /api/usuarios/:id          → obtenerUsuario
+ * PUT     /api/usuarios/:id          → actualizarUsuario (requiere autenticación)
+ * DELETE  /api/usuarios/:id          → eliminarUsuario (solo admin)
  */
+
+// Ruta para registro cliente abierto
 router.post("/", crearUsuario);
-router.get("/", listarUsuarios);
-router.get("/:id", obtenerUsuario);
+// Ruta para crear entrenador (solo admin autenticado)
+router.post("/entrenador", verificarToken, crearEntrenador);
+// Listar usuarios (verifica roles)
+router.get("/", verificarToken, listarUsuarios);
+router.get("/:id", verificarToken, obtenerUsuario);
 router.put("/:id", verificarToken, actualizarUsuario);
+// Eliminar usuarios (solo admin)
 router.delete("/:id", verificarToken, eliminarUsuario);
 
-/**
- * Exporta el router para su inclusión en la aplicación principal, donde será montado bajo /api/usuarios.
- */
 export default router;
