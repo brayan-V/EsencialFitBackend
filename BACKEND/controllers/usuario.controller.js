@@ -79,7 +79,7 @@ export const crearUsuario = async (req, res) => {
  * Controlador para listar usuarios según rol solicitado:
  * - Admin: ve todos los usuarios registrados.
  * - Entrenador: ve solo usuarios con rol 'cliente'.
- * - Cliente: prohibido (opcional, puedes permitir solo datos propios en otra ruta).
+ * - Cliente: prohibido.
  */
 export const listarUsuarios = async (req, res) => {
   try {
