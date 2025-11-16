@@ -1,1 +1,15 @@
-<p>login works!</p>
+<div class="container" style="max-width:410px;margin-top:40px;">
+  <h5 class="center-align">Iniciar sesión</h5>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="input-field">
+      <input id="correo" formControlName="correo" type="email" required>
+      <label for="correo">Correo</label>
+    </div>
+    <div class="input-field">
+      <input id="contraseña" formControlName="contraseña" type="password" required>
+      <label for="contraseña">Contraseña</label>
+    </div>
+    <button type="submit" class="btn cyan accent-2" [disabled]="loading || loginForm.invalid">Entrar</button>
+    <p class="red-text" *ngIf="errorMsg">{{ errorMsg }}</p>
+  </form>
+</div>

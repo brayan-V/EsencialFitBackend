@@ -1,1 +1,37 @@
-<p>register works!</p>
+<div class="container" style="max-width:430px;margin-top:40px;">
+  <h5 class="center-align">Registro</h5>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="input-field">
+      <select id="tipoID" formControlName="tipoID" class="browser-default" required>
+        <option value="" disabled selected>Selecciona tipo de documento</option>
+        <option *ngFor="let tipo of tiposID" [value]="tipo">{{ tipo }}</option>
+      </select>
+    </div>
+    <div class="input-field">
+      <input id="numeroID" formControlName="numeroID" type="text" required>
+      <label for="numeroID">Número de documento</label>
+    </div>
+    <div class="input-field">
+      <input id="nombre" formControlName="nombre" type="text" required>
+      <label for="nombre">Nombre completo</label>
+    </div>
+    <div class="input-field">
+      <input id="correo" formControlName="correo" type="email" required>
+      <label for="correo">Correo</label>
+    </div>
+    <div class="input-field">
+      <input id="telefono" formControlName="telefono" type="text">
+      <label for="telefono">Teléfono (opcional)</label>
+    </div>
+    <div class="input-field">
+      <input id="contraseña" formControlName="contraseña" type="password" required>
+      <label for="contraseña">Contraseña</label>
+    </div>
+    <div class="input-field" *ngIf="esEntrenador">
+      <input id="especialidad" formControlName="especialidad" type="text">
+      <label for="especialidad">Especialidad (entrenador)</label>
+    </div>
+    <button type="submit" class="btn cyan accent-2" [disabled]="loading || registerForm.invalid">Registrar</button>
+    <p class="red-text" *ngIf="errorMsg">{{ errorMsg }}</p>
+  </form>
+</div>
