@@ -65,3 +65,4 @@ UsuarioSchema.methods.compararContraseña = function (contraseña) {
  * desde cualquier módulo de la aplicación.
  */
 export default mongoose.model("Usuario", UsuarioSchema);
+

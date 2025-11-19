@@ -1,1 +1,84 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --fit-primary: #F96C4B;        /* Botones, destacados */
+  --fit-secondary: #FFD3B6;      /* Fondos suaves, cards */
+  --fit-bg: #F9F5F1;             /* Fondo general */
+  --fit-text: #41322E;           /* Texto principal */
+  --fit-accent1: #FFD580;        /* Iconos, badges */
+  --fit-accent2: #A4C16E;        /* Verde check, ok */
+  --fit-error: #E94B3C;          /* Errores/alertas */
+  --fit-border: #E0CFC5;         /* Bordes y líneas */
+}
+
+body {
+  background: var(--fit-bg);
+  color: var(--fit-text);
+  font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+  margin: 0;
+}
+button, .btn {
+  background: var(--fit-primary);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(240,92,50,0.10);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+button:hover, .btn:hover {
+  background: var(--fit-accent1);
+  color: var(--fit-text);
+  transform: scale(1.03);
+}
+.btn-flat {
+  background: transparent;
+  color: var(--fit-primary);
+  box-shadow: none;
+}
+input, select, textarea {
+  border: 1px solid var(--fit-border);
+  background: #fff;
+  color: var(--fit-text);
+  border-radius: 3px;
+  padding-left: 10px;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--fit-primary);
+  outline: none;
+}
+label {
+  color: var(--fit-text);
+}
+.card, .feature-card {
+  background: var(--fit-secondary);
+  border: 1px solid var(--fit-border);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(249,108,75,0.04);
+  padding: 25px 20px;
+  color: var(--fit-text);
+}
+.error, .red-text {
+  color: var(--fit-error) !important;
+}
+.table, table {
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--fit-bg);
+  color: var(--fit-text);
+}
+th, td {
+  border-bottom: 1px solid var(--fit-border);
+}
+hr, .divider {
+  border: none;
+  border-top: 1px solid var(--fit-border);
+  margin: 32px 0;
+}
+::-webkit-scrollbar {
+  width: 9px;
+  background: var(--fit-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--fit-secondary);
+  border-radius: 8px;
+}

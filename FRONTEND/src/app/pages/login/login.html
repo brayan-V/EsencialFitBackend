@@ -1,15 +1,40 @@
-<div class="container" style="max-width:410px;margin-top:40px;">
+<div class="container" style="max-width: 410px; margin-top: 40px">
+  <img
+    src="assets/logo2.png"
+    style="
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.06;
+      max-width: 450px;
+      width: 75vw;
+      z-index: 0;
+      pointer-events: none;
+    "
+  />
   <h5 class="center-align">Iniciar sesión</h5>
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div class="input-field">
-      <input id="correo" formControlName="correo" type="email" required>
+      <input id="correo" formControlName="correo" type="email" required />
       <label for="correo">Correo</label>
     </div>
     <div class="input-field">
-      <input id="contraseña" formControlName="contraseña" type="password" required>
+      <input id="contraseña" formControlName="contraseña" type="password" required />
       <label for="contraseña">Contraseña</label>
     </div>
-    <button type="submit" class="btn cyan accent-2" [disabled]="loading || loginForm.invalid">Entrar</button>
+    <button
+      type="submit"
+      class="btn"
+      [disabled]="loading || loginForm.invalid"
+      style="width: 100%; margin-top: 18px"
+    >
+      ENTRAR
+    </button>
+    <p class="center-align" style="margin-top: 14px">
+      ¿No tienes cuenta?
+      <a routerLink="/register" style="color: var(--fit-primary); font-weight: 600">Regístrate</a>
+    </p>
     <p class="red-text" *ngIf="errorMsg">{{ errorMsg }}</p>
   </form>
 </div>

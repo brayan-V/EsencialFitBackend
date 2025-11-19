@@ -20,17 +20,39 @@ export const login = async (req, res) => {
 
     // Busca en la base de datos un usuario con el correo proporcionado
     const usuario = await Usuario.findOne({ correo });
-    if (!usuario) return res.status(404).json({ mensaje: "Usuario no encontrado" });
+    if (!usuario)
+      return res.status(404).json({ mensaje: "Usuario no encontrado" });
 
     // Verifica que la contraseña ingresada coincide con la guardada (encriptada)
     const esValido = await usuario.compararContraseña(contraseña);
-    if (!esValido) return res.status(401).json({ mensaje: "Contraseña incorrecta" });
+    if (!esValido)
+      return res.status(401).json({ mensaje: "Contraseña incorrecta" });
 
     // Si es válido, genera y retorna el token JWT con duración de 1 hora
-    const token = jwt.sign({ id: usuario._id }, CLAVE_SECRETA_JWT, { expiresIn: "1h" });
+    //Ahora el JWT incluye id, nombre, correo y rol en el payload para que el frontend pueda extraer los datos del usuario tras iniciar sesión.
+    const token = jwt.sign(
+      {
+        id: usuario._id,
+        nombre: usuario.nombre,
+        correo: usuario.correo,
+        rol: usuario.rol,
+      },
+      CLAVE_SECRETA_JWT,
+      { expiresIn: "1h" }
+    );
 
     // Retorna el token para su uso en rutas protegidas
-    res.json({ token });
+    // También se retorna el objeto 'usuario' con estos datos clave en la respuesta del login, facilitando el acceso inmediato a la información relevante en el frontend.
+    res.json({
+      token,
+      usuario: {
+        _id: usuario._id,
+        id: usuario._id,
+        nombre: usuario.nombre,
+        correo: usuario.correo,
+        rol: usuario.rol,
+      },
+    });
   } catch (error) {
     res.status(500).json({ mensaje: "Error en autenticación", error });
   }

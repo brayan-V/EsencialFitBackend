@@ -1,0 +1,26 @@
+.landing-container {
+  min-height: 100vh;
+  background: var(--fit-bg);
+  color: var(--fit-text);
+  padding-top: 3rem;
+}
+.hero {
+  margin: 60px 0 40px 0;
+}
+.features {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 40px auto;
+  flex-wrap: wrap;
+}
+.feature-card {
+  background: var(--fit-secondary);
+  border: 1px solid var(--fit-border);
+  color: var(--fit-text);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(249,108,75,0.04);
+}
+@media (max-width: 900px) {
+  .features { flex-direction: column; align-items: center; }
+}

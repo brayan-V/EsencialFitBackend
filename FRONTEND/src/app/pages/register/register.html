@@ -1,4 +1,18 @@
-<div class="container" style="max-width:430px;margin-top:40px;">
+<div class="container" style="max-width: 430px; margin-top: 40px">
+  <img
+    src="assets/logo2.png"
+    style="
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.06;
+      max-width: 450px;
+      width: 75vw;
+      z-index: 0;
+      pointer-events: none;
+    "
+  />
   <h5 class="center-align">Registro</h5>
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <div class="input-field">
@@ -8,30 +22,32 @@
       </select>
     </div>
     <div class="input-field">
-      <input id="numeroID" formControlName="numeroID" type="text" required>
+      <input id="numeroID" formControlName="numeroID" type="text" required />
       <label for="numeroID">Número de documento</label>
     </div>
     <div class="input-field">
-      <input id="nombre" formControlName="nombre" type="text" required>
+      <input id="nombre" formControlName="nombre" type="text" required />
       <label for="nombre">Nombre completo</label>
     </div>
     <div class="input-field">
-      <input id="correo" formControlName="correo" type="email" required>
+      <input id="correo" formControlName="correo" type="email" required />
       <label for="correo">Correo</label>
     </div>
     <div class="input-field">
-      <input id="telefono" formControlName="telefono" type="text">
+      <input id="telefono" formControlName="telefono" type="text" />
       <label for="telefono">Teléfono (opcional)</label>
     </div>
     <div class="input-field">
-      <input id="contraseña" formControlName="contraseña" type="password" required>
+      <input id="contraseña" formControlName="contraseña" type="password" required />
       <label for="contraseña">Contraseña</label>
     </div>
     <div class="input-field" *ngIf="esEntrenador">
-      <input id="especialidad" formControlName="especialidad" type="text">
+      <input id="especialidad" formControlName="especialidad" type="text" />
       <label for="especialidad">Especialidad (entrenador)</label>
     </div>
-    <button type="submit" class="btn cyan accent-2" [disabled]="loading || registerForm.invalid">Registrar</button>
+    <button type="submit" class="btn cyan accent-2" [disabled]="loading || registerForm.invalid">
+      Registrar
+    </button>
     <p class="red-text" *ngIf="errorMsg">{{ errorMsg }}</p>
   </form>
 </div>

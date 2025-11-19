@@ -1,0 +1,15 @@
+main {
+  padding: 0 0 32px 0;
+}
+nav {
+  background: var(--fit-bg);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+  border-bottom: 1px solid var(--fit-border);
+  margin-bottom: 0;
+}
+.brand-logo span {
+  font-weight: 700;
+  font-size: 1.4em;
+  color: var(--fit-primary);
+  letter-spacing: 1.3px;
+}

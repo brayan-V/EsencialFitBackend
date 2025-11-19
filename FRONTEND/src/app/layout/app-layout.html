@@ -1,0 +1,38 @@
+<nav style="background: #fff; border-bottom: 1px solid var(--fit-border); box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
+  <div class="nav-wrapper">
+    <a (click)="router.navigate(['/'])" class="brand-logo" style="cursor:pointer; margin-left:20px;">
+      <img src="assets/logo2.png" style="height:50px;vertical-align:middle;margin-right:10px;">
+      <span style="vertical-align:middle; color: var(--fit-primary); font-weight:700;">EsencialFit</span>
+    </a>
+    <ul class="right" style="margin-right:18px;">
+      <ng-container *ngIf="!autenticado; else sesionIniciada">
+        <li>
+          <a
+            routerLink="/login"
+            class="btn"
+            type="button"
+            style="font-weight:600; min-width:140px; letter-spacing:.04em;"
+          >
+            INICIAR SESIÓN
+          </a>
+        </li>
+      </ng-container>
+      <ng-template #sesionIniciada>
+        <li>
+          <a
+            (click)="cerrarSesion()"
+            class="btn"
+            type="button"
+            style="font-weight:600; min-width:140px; letter-spacing:.04em;"
+          >
+            CERRAR SESIÓN
+          </a>
+        </li>
+      </ng-template>
+    </ul>
+  </div>
+</nav>
+<main>
+  <router-outlet></router-outlet>
+</main>
+<app-footer></app-footer>
